@@ -1,12 +1,21 @@
 HosaApp::Application.routes.draw do
 
-  # get "users/new" replaced with below to get full REST style URLs to work
-  resources :users
+#  get "sessions/new" replaced with resources command to get full REST style URLs to work
+#  get "users/new" replaced with resources command to get full REST style URLs to work
   root 'static_pages#home'
-  match '/help', to:'static_pages#help', via: 'get'
-  match '/about', to:'static_pages#about', via: 'get'
-  match '/contact', to:'static_pages#contact', via: 'get'
-  match '/signup', to:'users#new', via: 'get'
+#  match '/help', to:'static_pages#help', via: 'get'
+#  match '/about', to:'static_pages#about', via: 'get'
+#  match '/contact', to:'static_pages#contact', via: 'get'
+#  match '/signup', to:'users#new', via: 'get'
+  get 'help' => 'static_pages#help'
+  get 'about' => 'static_pages#about'
+  get 'contact' => 'static_pages#contact'
+  get 'signup' => 'users#new'
+
+  get 'login'  => 'sessions#new'
+  delete 'logout' => 'sessions#destroy'
+  resources :users
+  resources :sessions, only: [:new, :create, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
