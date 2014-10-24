@@ -10,15 +10,14 @@ describe "Authentication" do
  	 	describe "with invalid information" do
  	 		before { click_button "Log in"}
 
- 		it { should have_content('Log in') }
-    	it { should have_title('Log in') }
-    	it { should have_selector('div.alert.alert-error')}
+	 		it { should have_content('Log in') }
+    		it { should have_title('Log in') }
+    		it { should have_selector('div.alert.alert-error')}
 
-    		  describe "after visiting another page" do
-	  	before { click_link "Home" }
-	  	it { should_not have_selector('div.alert.alert-error') }
-	end
-
+    		describe "after visiting another page" do
+			  	before { click_link "Home" }
+	  			it { should_not have_selector('div.alert.alert-error') }
+			end
     end
 
 
@@ -44,7 +43,6 @@ describe "Authentication" do
 
 
 				describe "in the Users controller" do
-
 					describe "visiting the edit page" do
 						before { visit edit_user_path(user) }
 							it { should have_title ('Log in') }
@@ -60,9 +58,20 @@ describe "Authentication" do
 					describe "visting the user index" do
 						before { visit users_path }
 						it { should have_title('Log in')}
+					end
+				end
 
+				describe "in the Microposts controller" do
+
+					describe "submitting to the create action" do
+						before { post microposts_path()}
+						it { expect(response).to redirect_to(login_path) }
 					end
 
+					describe "submitting to the destroy action" do
+						before { delete micropost_path(FactoryGirl.create(:micropost))}
+						it { expect(response).to redirect_to(login_path) }
+					end
 				end
 		end
 	end
@@ -84,6 +93,7 @@ describe "Authentication" do
       end
     end
  
+ # Friendly forwarding
 		 describe "for non-signed-in users" do
 		      let(:user) { FactoryGirl.create(:user) }
 
